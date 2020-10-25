@@ -1,0 +1,24 @@
+version: '3'
+services:
+
+  #PHP Service
+  game-of-life-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: digitalocean.com/php
+    container_name: game-of-life-server
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    networks:
+      - game-of-life-network
+
+#Docker Networks
+networks:
+  game-of-life-network:
+    driver: bridge
